@@ -454,8 +454,10 @@ exports.react = async(req, res, next)  => {
     return res.send('Thing');
   }
 
+  let newReact;
+
   if(!existingReact){
-    const newReact = new React({
+    newReact = new React({
       upload: req.params.upload,
       user: req.params.user,
       react: req.body.emoji,
@@ -495,7 +497,7 @@ exports.react = async(req, res, next)  => {
 
   // add a notification
 
-  // create notif for comment on your upload if its not your own thing
+  // create notif for comment on your upload if its not your own upload
   if(upload.uploader._id.toString() !== req.user._id.toString()){
     await createNotification(upload.uploader._id, req.user._id, 'react', upload, newReact);
   }
