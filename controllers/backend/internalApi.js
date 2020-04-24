@@ -323,6 +323,10 @@ exports.deleteUploadThumbnail = async(req, res, next) => {
 
 };
 
+exports.popular = async function(req, res, next){
+  res.send(await getFromCache.getPopularUploads("24hour", 150, 0, "all", "all", "all", ""));
+}
+
 exports.subscribeEndpoint = async function(req, res, next){
 
   // get receiving user

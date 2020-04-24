@@ -267,6 +267,8 @@ function frontendRoutes(app){
   app.get('/media/subscribed', passportConfig.isAuthenticated, accountFrontendController.subscriptions);
   app.get('/media/subscribed/:page', passportConfig.isAuthenticated, accountFrontendController.subscriptions);
 
+  app.get('/api/media/popular', mediaBrowsingController.popularUploadsAPI);
+
   // upload page
   app.get('/upload', passportConfig.isAuthenticated, accountFrontendController.getFileUpload);
 

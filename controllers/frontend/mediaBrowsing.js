@@ -363,6 +363,55 @@ exports.popularUploads = async(req, res) => {
 
 };
 
+/**
+ * GET api/media/popular
+ * JSON popular media
+ */
+exports.popularUploadsAPI = async(req, res) => {
+
+  // get media page, either video, image, audio or all
+  let media = req.query.media || 'all';
+
+  // TODO: pull this into a process var
+
+  let category = req.query.category || 'all';
+
+  // let 'overview' be passed as a category
+
+  // let category = req.query.category || 'all';
+
+  let subcategory = req.query.subcategory || '';
+
+  let within = req.query.within;
+
+  if(!within){
+    within = '24hour';
+  }
+
+  try {
+
+    const timeRange = req.query.within;
+    const mediaType = media;
+
+    let filter = getSensitivityFilter(req.user, req.siteVisitor);
+
+    let uploads = await getFromCache.getPopularUploads(timeRange, 150, 0, mediaType, filter, category, subcategory);
+
+    res.send(uploads);
+
+  } catch(err){
+    console.log('ERR:');
+    console.log(err);
+
+    res.status(500);
+    return res.render('error/500', {
+      title: 'Server Error'
+    });
+  }
+
+};
+
+
 async function saveSearchQuery(user, search){
   // note the person searching
   let searcher = user && user.id || undefined;
